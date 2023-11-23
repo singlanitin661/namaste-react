@@ -85,6 +85,7 @@ A bundler is a tool used in web development to package various assets (JavaScrip
 
 - Parcel
 - Webpack
+- Weed
 - Rollup
 
 ## 3) NPM (Node Package Manager)
