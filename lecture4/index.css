@@ -27,11 +27,35 @@
 
 .res-card{
     width: 200px;
-    height: 300px;
-    border: 2px solid black
+    height: 400px;
+    
+    /* justify-content: space-around; */
+    padding: 10px;
+    /* background-image: url("https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/af33b81798b11deba338e94b7585d348"); */
+}
+
+.res-card:hover{
+    border: 2px solid black;
+    cursor: pointer;
 }
 
 .search{
     padding: 10px;
+
+}
+
+.res-card > img{
     
+    width: 190px;
+    border-radius: 5px;
+
+}
+
+.restaurant-container{
+    width: 80%;
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
 }
