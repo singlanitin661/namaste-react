@@ -99,6 +99,33 @@ console.log(user?.address?.city ?? "City information not available");
 
 In the example above, the optional chaining operator (`?.`) is used to access the `city` property of the `address` property of the `user` object. If any intermediate property (`user`, `address`, or `city`) is `null` or `undefined`, the expression short-circuits, and the result is `undefined`. The nullish coalescing operator (`??`) is then used to provide a default value if the result is `undefined`.
 
+
+### React Warning
+#### Warning: Each child in a list should have a unique "key" prop
+
+for the code :
+```js
+<ul>
+  {["Item1", "Item2", "Item3"].map(item =>
+  <li>{item}</li>
+  )}
+</ul>
+```
+
+The warning is due to we have not provided any key which can help react to differentiate in b/w elements.
+So, now whenever I want to modify a particular element react will have to re-render the whole tree, which leads to time and resource waste, therefore we pass a ```key``` (A reserved keyword and an unique identifier) to help react what exactly it requires to do.
+```js
+<ul>
+  {["Item1", "Item2", "Item3"].map(item =>
+  <li key="{item}">{item}</li>
+  )}
+</ul>
+```
+Moreover : Keys do not have to be unique globally. They just need to be unique across sibling elements.
+Also, index of array is not recommended to be used as an key if the array is not static.
+
+Not key <<< Index as an Key <<< Unique key (Best practice)
+
 ### Extra
 A frontend developer should ask the backend developer that how the api is designed . What all paramenters, i will be getting from it
 
