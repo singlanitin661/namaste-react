@@ -7,7 +7,7 @@ const HeaderComponent = () => {
     return (
         <div className="header">
             < div className="logo-container">
-                  
+                 <img src={logo} alt="logo"></img>
             </div>
             
             <div className="nav-items">
@@ -28,7 +28,7 @@ const styleCard = {
 const RestaurantComponent = (props) => {
     return (
         <div className="res-card" style={styleCard}>
-            <img src={props.image} alt={props.name + " Image"} ></img>
+            <img src={props.image.search("example") == -1 ? props.image : "https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/obtyqt35sq55t0owwixq"} alt={props.name + " Image"} ></img>
             <h3>{props.name}</h3>
             <h4>{props.cusine}</h4>
             <h4>{props.rating + "/5⭐"} </h4>
