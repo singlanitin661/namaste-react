@@ -1,32 +1,7 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-
-import logo from "./images/logo.png"
-
-const HeaderComponent = () => {
-    return (
-        <div className="header">
-            < div className="logo-container">
-                 <img src={logo} alt="logo">
-                    
-                 </img>
-            </div>
-            
-            <div className="nav-items">
-                <ul>
-                    <li>Home</li>
-                    <li>About us</li>
-                    <li>Contact us</li>
-                    <li>Cart</li>
-                </ul>
-            </div>
-        </div>
-    )
-}
-
-const styleCard = {
+ const styleCard = {
     backgroundColor : "#f0f0f0"
 }
+
 const RestaurantComponent = (props) => {
     return (
         <div className="res-card" style={styleCard}>
@@ -38,13 +13,19 @@ const RestaurantComponent = (props) => {
         </div>
     )
 }
+
 const BodyComponent = () => {
     return (
         <div className="body">
-            <div className="search">
+            {/* <div className="search">
                 Search
+            </div> */}
+            <div className="filter">
+                <button className="filter-btn" onClick={()=>{
+                    console.log("button clicked")
+                }}
+                >Top Rated Rest</button>
             </div>
-
             <div className="restaurant-container">
                 <RestaurantComponent name="MeghanaFoods" cusine="" rating="4.3" eta="38" image="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/obtyqt35sq55t0owwixq" />
                 <RestaurantComponent name="DeliciousDelights" cusine="Mediterranean" rating="4.8" eta="25" image="https://example.com/delicious-delights.jpg" />
@@ -60,18 +41,5 @@ const BodyComponent = () => {
         </div>
     )
 }
-const AppLayoutComponent = () => {
-    return (
-        <div className="app">
-            <HeaderComponent />
 
-            <BodyComponent />
-
-            {/* <FooterComponent/> */}
-        </div>
-    )
-}
-
-const root = ReactDOM.createRoot(document.getElementById("root"));
-
-root.render(<AppLayoutComponent/>)
+export default BodyComponent
