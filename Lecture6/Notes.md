@@ -39,3 +39,20 @@ Page Load ==> API-call(500ms) ==> Render the page
 
 Better because improved UX as some data is always visible to the user. The user don't see all that lag and gittery-ness.
 
+# UseEffect Hook
+```js
+import {useEffect} from "react";
+
+useEffect(callBackFn, dependencyArray)
+
+useEffect(()=>{
+    console.log("useEffect Called"), []
+})
+```
+## The useEffect hook takes two arguments:
+
+**Effect Function:** This is the function containing the code that performs the side effect.
+
+**Dependency Array (optional):** This array is used to specify dependencies for the effect. If any of the dependencies change between renders, the effect function will be re-executed. If the dependency array is omitted, the effect will run after every render.
+## Note : 
+The callback function is called when the component gets rendered

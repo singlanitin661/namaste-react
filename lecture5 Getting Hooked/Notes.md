@@ -80,7 +80,7 @@ A local state variable have its scope inside the function
 import {useState} from "react"
 ```
 So, i will use the following 
-1) `useState()`
+1) `useState()` == > used to maintain the state variables
 
 ```js
 const [NameOfStateVariable, ModificationFunctions(NewValue)] = useState(DefaultValue)
