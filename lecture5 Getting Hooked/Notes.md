@@ -89,7 +89,7 @@ const [ListOfRestaurants, setlistOfRestaurants([New Dataset])] = useState([Defau
 ```
 Can be used as a normal variable
 
-#### Note : Hooks/state Variables can't be directly modified using '=' sign.
+#### Note : Hooks/state Variables can't be directly modified using '=' sign. They are modified with only the second funtion that got passed while initiaising the useState
 
 ## Reconcilation Algo of React
 Also known as `ReactFibre`
@@ -107,3 +107,79 @@ There are 3 rules for hooks:
 1) Hooks can only be called inside React function components.
 2) Hooks can only be called at the top level of a component.
 3) Hooks cannot be conditional 
+
+### Example use of Hooks
+```js
+//suppose we have an l;ogin button , and whenever user clicks on it, it should change to logout
+import {useState} from "./react"
+const Header = () => { 
+    const [LoginButton, setLoginButton] = useState("login")
+
+    return(
+        <button onClick={()=>{
+            LoginButton ==="login" ? setLoginButton("log-Out") : setLoginButton("Logout")}}>{LoginButton}
+        </button>
+    )
+}
+```
+
+## Why we even need state variables?
+The reason was, react doesnt get to know thaT we have updated out old variables `let/const/var`, So the concept of state variables was introduced. therefore we use `stateVariables` which when gets updated, react `re-renders the whole-component but with re-concillation Algo` containing them.
+
+### QUestion : 
+Inside `const [LoginButton, setLoginButton] = useState("login")` how can react update an constant variable?
+
+### Answer
+React baiscally re-renders the whole component and sends another of variable with the same name. conside it as if we are defining
+```c++
+for(int i =0 ; i<n ; i++>){
+    for(int i=0 ; i<n; i++>){
+        //logic
+    }
+}
+```
+
+# How to implement take input-text functionality in React
+```js
+//I want to change the input-box input to empty string when i click on the search button, therefore i am required to use an UseState.
+const SearchComponent = () => {
+   
+    const [searchInputText, setSearchInputText] = useState("")
+    return(
+        <div className= "Search" >
+            <input type="text" className="search-box" value={searchInputText}/>
+            
+            <button onClick={()=>{
+                //search/filter logic here
+            }}>Search </button>
+        </div>
+    )
+}
+```
+
+In the above code, there is going to be a big issue. That is we won't be able to write something inside the input box because we have rendered our page with `searchInputText` only, and changes wont be visible. Therfore, we are required to continuously update the same with the click of the functions.
+
+so the above code will be modified to 
+```js
+const SearchComponent = () => {
+    const [searchInputText, setSearchInputText] = useState("")
+    return(
+        <div className= "Search" >
+            <input type="text" className="search-box" value={searchInputText} onChange={(e) => {
+                setSearchInputText(e.target.value)
+            }} />
+            
+            <button onClick={(e)=>{ //e is event
+                //search/filter logic here
+                console.log(searchInputText);
+            }}>Search </button>
+        </div>
+    )
+}
+```
+
+### fun-fact
+Whole `searchComponent` is getting re-rendered everytime, i type something in the seach box.
+
+# State-variables
+Whenever a state variable updates, the react triggers the re-concillation cycle again. 

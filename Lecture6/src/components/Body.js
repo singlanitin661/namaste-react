@@ -1,6 +1,11 @@
- const styleCard = {
+import {useState, useEffect} from "react";
+import ShimmerComponent from "./Shimmer";
+const styleCard = {
     backgroundColor : "#f0f0f0"
 }
+const resList = []
+const Swiggy_API = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.9351929&lng=77.62448069999999&page_type=DESKTOP_WEB_LISTING"
+
 
 const RestaurantComponent = (props) => {
     return (
@@ -15,6 +20,21 @@ const RestaurantComponent = (props) => {
 }
 
 const BodyComponent = () => {
+
+    const [listOfRestaurants, setListofRestaurants] = useState(resList);
+    const fetchData = async () =>{
+        const data = await fetch(Swiggy_API);
+        const dataInJSON = await data.json();
+        console.log(dataInJSON);
+        // setListofRestaurants(dataInJSON.data.cards[2].data.data.cards)
+    }
+
+    useEffect(()=>{
+        fetchData();
+    })
+    if(listOfRestaurants.length === 0){
+        return <ShimmerComponent/>
+    }
     return (
         <div className="body">
             {/* <div className="search">
@@ -27,16 +47,7 @@ const BodyComponent = () => {
                 >Top Rated Rest</button>
             </div>
             <div className="restaurant-container">
-                <RestaurantComponent name="MeghanaFoods" cusine="" rating="4.3" eta="38" image="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/obtyqt35sq55t0owwixq" />
-                <RestaurantComponent name="DeliciousDelights" cusine="Mediterranean" rating="4.8" eta="25" image="https://example.com/delicious-delights.jpg" />
-                <RestaurantComponent name="TastyTreats" cusine="Asian Fusion" rating="4.5" eta="30" image="https://example.com/tasty-treats.jpg" />
-                <RestaurantComponent name="SizzlingSpices" cusine="Mexican" rating="4.2" eta="40" image="https://example.com/sizzling-spices.jpg" />
-                <RestaurantComponent name="FusionFlavors" cusine="International" rating="4.6" eta="22" image="https://example.com/fusion-flavors.jpg" />
-                <RestaurantComponent name="UrbanEats" cusine="American" rating="4.4" eta="35" image="https://example.com/urban-eats.jpg" />
-                <RestaurantComponent name="SpiceHub" cusine="Indian" rating="4.1" eta="45" image="https://example.com/spice-hub.jpg" />
-                <RestaurantComponent name="SeafoodSensation" cusine="Seafood" rating="4.7" eta="20" image="https://example.com/seafood-sensation.jpg" />
-                <RestaurantComponent name="VeggieVibes" cusine="Vegetarian" rating="4.9" eta="15" image="https://example.com/veggie-vibes.jpg" />
-                <RestaurantComponent name="SweetTreatHouse" cusine="Desserts" rating="4.0" eta="50" image="https://example.com/sweet-treat-house.jpg" />
+                {/* listOfRestaurants.map((rest) => (<RestaurantComponent key={restaurant.data.id} resData = {restaurant}/>)) */}
             </div>
         </div>
     )

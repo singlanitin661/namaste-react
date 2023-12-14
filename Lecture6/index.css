@@ -59,4 +59,15 @@
     flex-wrap: wrap;
     justify-content: center;
 }
-
+.Shimmer-container{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+.shimmer-card{
+    width: 20vh;
+    height: 25vh;
+    margin: 20px;
+    background-color: rgb(205, 202, 202);
+}

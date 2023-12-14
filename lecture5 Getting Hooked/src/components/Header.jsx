@@ -4,10 +4,13 @@ import logo from "../../images/logo.png"
 
 const HeaderComponent = () => {
     return (
+
+
         <div className="header">
             < div className="logo-container">
                  <img src={logo} alt="logo"></img>
             </div>
+            
             
             <div className="nav-items">
                 <ul>
@@ -16,6 +19,7 @@ const HeaderComponent = () => {
                     <li>Contact us</li>
                     <li>Cart</li>
                 </ul>
+                
             </div>
         </div>
     )
