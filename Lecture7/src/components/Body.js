@@ -1,5 +1,6 @@
 import {useState, useEffect} from "react";
 import ShimmerComponent from "./Shimmer";
+import { Link } from "react-router-dom";
 const styleCard = {
     backgroundColor : "#f0f0f0"
 }
@@ -69,7 +70,7 @@ const BodyComponent = () => {
                 listOfRestaurants.map((restaurant) => 
                     
                    
-                        <RestaurantComponent key={restaurant.info.id} resData={restaurant.info} />
+                        <Link to={"/restaurants/"+restaurant.info.id  } key={restaurant.info.id} > <RestaurantComponent resData={restaurant.info} /></Link>
                     
                 )
                }                

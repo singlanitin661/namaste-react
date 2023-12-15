@@ -90,6 +90,14 @@ const AppLayoutComponent = () => {
 }
 ```
 
+## passing dynamic urls:
+```js
+{
+    path:"/restaurants/:resID", //coloun means that the resId will be dynamic
+    element: <RestaurantMenu/>
+}
+```
+
 # While working with react, never ever use an anchor tag
 Because it will re-fresh/reload the whole page, but this means we are no longer using our(react's) reconcillation algo.
 
@@ -140,3 +148,64 @@ Works exactly the same as anchor tag
    - **How it Works:**
      - Each navigation triggers a request to the server.
      - The server generates a new HTML page based on the requested URL and sends it back to the client for display.
+
+# useParams
+`useParams` is a hook provided by the React Router library in React that allows you to access parameters from the current route in a functional component. It is commonly used in the context of client-side routing to extract dynamic segments from the URL.
+
+Here's a brief explanation of how `useParams` works:
+
+1. **Installation:**
+   Make sure you have React Router installed in your project. If not, you can install it using:
+
+   ```bash
+   npm install react-router-dom
+   ```
+
+2. **Usage:**
+   Import the `useParams` hook in your React component:
+
+   ```javascript
+   import { useParams } from 'react-router-dom';
+   ```
+
+3. **Accessing Parameters:**
+   Use the `useParams` hook in your component function. It returns an object with the key-value pairs of the URL parameters:
+
+   ```javascript
+   import React from 'react';
+   import { useParams } from 'react-router-dom';
+
+   const MyComponent = () => {
+     const { id } = useParams();
+
+     // Now, 'id' contains the value of the 'id' parameter from the URL
+     // For example, if the URL is "/users/123", then 'id' will be "123"
+     
+     // Rest of your component logic...
+   };
+
+   export default MyComponent;
+   ```
+
+   In this example, if the route that rendered `MyComponent` looks like "/users/123," the `id` variable will be equal to "123."
+
+4. **Dynamic Routing:**
+   The `useParams` hook is especially useful in scenarios where you have dynamic routes with parameters. For instance, in a route like "/users/:id," the `:id` part represents a dynamic parameter that can be accessed using `useParams`.
+
+   ```javascript
+   import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+   const App = () => {
+     return (
+       <Router>
+         <Route path="/users/:id" component={MyComponent} />
+       </Router>
+     );
+   };
+   ```
+
+   Here, `MyComponent` will receive the `id` parameter from the URL.
+
+Using `useParams` allows you to create more flexible and dynamic React components that can respond to changes in the URL, making it a powerful tool for building applications with dynamic routing.
+
+### Link uses anchor tag in the background.
