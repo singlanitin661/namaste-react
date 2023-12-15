@@ -28,8 +28,8 @@
 .res-card{
     width: 200px;
     height: 400px;
-    
-    /* justify-content: space-around; */
+    margin: 10px;
+    border-radius: 10%;
     padding: 10px;
     /* background-image: url("https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/af33b81798b11deba338e94b7585d348"); */
 }
@@ -47,7 +47,6 @@
 .res-card > img{
     
     width: 190px;
-    border-radius: 5px;
 
 }
 
