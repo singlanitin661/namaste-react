@@ -2,7 +2,7 @@
 1) All js files in ```src``` folder
 2) Seperate file for every component
 
-project
+- project
     - src
         - components (keep files containing the componenets a capital letter)
         - images
