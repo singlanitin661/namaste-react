@@ -149,18 +149,16 @@ async componentDidMount(){
 ```
 
 ## `componentDidUpdate`
-### [Lifecycle](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
+### [LifeCycle Link](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
 
-```markdown
-1) Mounting-Life cycle
-  Constructor(dummyData)
-  render(dummyData)
-  <html dummmy>
-  ComponentDidMount ==> API call ==> this.setState
-2) Updation
-  render(API data)
-  html is loaded with new API data
-  componentDidUpdate
-3) Unmounting
+- 1) **Mounting-Life cycle**
+  - Constructor(dummyData)
+  - render(dummyData)
+  - html with dummmy data
+  - ComponentDidMount ==> API call ==> this.setState
+- 2) **Updation**
+  - render(API data)
+  - html is loaded with new API data
+  - componentDidUpdate_
+- 3) **Unmounting**
   componentWillUnmount (called just before component is unmounted i.e. component is about to disappear)
-```

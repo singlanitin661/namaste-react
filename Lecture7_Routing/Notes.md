@@ -2,7 +2,7 @@
 type `rafce` and press `enter` and this will create an component for us of the same name as our file and export the same
 ### Hooks functions always start with an `use`
 ## Optional component(dependency Array) of use-Effect
-1) If optinal array is not passed , the useEffecxt will be called infinitely
+1) If optional array is not passed , the useEffecxt will be called infinitely
 2) If empty optional Array `[]` is passed, the useEffect is called only once.
 3) If something(`dependency`) is put inside the dependency array, then the useEffect will be called whenever the depency changes. The dependency will include the useState variables
 
@@ -15,9 +15,9 @@ type `rafce` and press `enter` and this will create an component for us of the s
 `React Router dom`(Version-6)
 ## Use-case
 **Installation** : `npm install react-router-dom`
-### the routing info is created inside the root level, i.e. App.js in our case
+### The routing info is created inside the root level, i.e. App.js in our case
 
-**Note** there are many routers available in the react router but the page itself recommend using createBrowserRouter
+**Note** there are many routers available in the react router but the page itself recommend using `createBrowserRouter`
 ```js
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
@@ -33,12 +33,13 @@ const appRouter = createBrowserRouter([
 ]) //configuration will be passed about what will happen on a specific route
 //Takes an array of objects which tell what to render on a particular page
 
-
+//RouteProvioder is an component provided by react-router-dom.
 root.render(<RouterProvider router={appRouter}/>)
 ```
 
 ## What to do if the user enters a wrong url
- Pass, an error elemenet in the code.
+**use** `errorElement`
+ Pass, an error element(That is the component which should be rendered when the url gets wrong) in the code.
  ```js
  {
         path : "/",
@@ -48,13 +49,14 @@ root.render(<RouterProvider router={appRouter}/>)
 ```
 
 ## To get more about the error , we might do the following 
+`useRouteError`
 ```js
 import { useRouteError } from 'react-router-dom'
 const error = useRouteError(); //will get me all the erros in the path
 ```
 
 ## Issues in the above part
-1) The whoel page is getting re-rendered and i want that only the stuff below the header will change. So, now we will use `children-routes`  
+1) The whole page is getting re-rendered and i want that only the stuff below the header will change. So, now we will use `children-routes`  
 The above can be achieved using the `children` property which again accepts an list of routes.
 ```js
 const appRouter = createBrowserRouter([
@@ -76,7 +78,7 @@ const appRouter = createBrowserRouter([
     
 ]) 
 ```
-and the app-layout will get added with an `Outlet`
+and the app-layout will get added with an `Outlet`. That is the children components will be rendered at the place of `Outlet`
 ```js
 import { Outlet } from "react-router-dom";
 const AppLayoutComponent = () => {
@@ -103,7 +105,7 @@ Because it will re-fresh/reload the whole page, but this means we are no longer 
 
 ## In react, we can navigate to an new page , without reloading the whole page.
 
-# Link
+# `Link`
 (Super-power of react)
 ## This is what makes the react applicatins single-page
 `import {Link} from "react-router-dom"`

@@ -13,6 +13,13 @@ App = {
     App4 = Database
 }
 ```
+
+## Follows two things : 
+1) Seperation of concerns
+2) Single responsibilty principle
+
+## Advantage 
+1) Can use different tech-stacks for different things
 # CORS
 
 ## CORS Error:
@@ -61,12 +68,6 @@ In this code:
 
 - `Access-Control-Allow-Headers` specifies the headers allowed in the actual request, including 'Origin,' 'X-Requested-With,' 'Content-Type,' and 'Accept'. Adjust these according to your needs.
 
-## Follows two things : 
-1) Seperation of concerns
-2) Single responsibilty principle
-
-## Advantage 
-1) Can use different tech-stacks for different things
 
 ## How these services are connnected?
 All the services run on their own specific-port
@@ -99,7 +100,7 @@ useEffect(()=>{
 ```
 
 ## UseCase of useEffect:
-To implement the second approachg that is when we want to re-render the page with the api data, we will use `useEffect`
+To implement the second approachg that is when we want to re-render the page with the api data, we will use `useEffect`. UseEffect is called as soon as the component renders.
 ## The useEffect hook takes two arguments:
 
 **Effect Function:** This is the function containing the code that performs the side effect. That is the changes to be done after the component renders.

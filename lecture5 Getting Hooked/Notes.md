@@ -5,7 +5,10 @@
 - project
     - src
         - components (keep files containing the componenets a capital letter)
-        - images
+    - images
+    - .gitignore
+    - package.json
+    - package-lock.json
 
 #### General trends/approaches(not rules) as per react documentation
 1) Grouping by features or routes
@@ -71,7 +74,7 @@ listOfRestautrants  = listOfRestautrants.filter(restaurant => restaurant.data.ra
 
 But now the react won't re-render the page. Therefore, i have to tell the react to re-render the page whenever my list gets updated.
 
-### what are state variable?
+### What are state variable?
 `State variable are variable , which whenever gets updated, react re-renders the components`
 These maintain the state of an component.
 A local state variable have its scope inside the function
@@ -95,11 +98,27 @@ Can be used as a normal variable
 Also known as `ReactFibre`
 
 ## Virtual Dom
-It is an representation of the actual dom
+It is an representation of the actual dom that is going top be rendered on the web-page.
 React objets are basically Virtual-DOM.
 
 ## DIff Algo
 Finds difference b/w old-virtual-dom and the update-virtual-dom. And will update the dom on every update cycle. 
+
+## Rules for updation of DOM
+1) if two elements have different type, tear down the whole tree below it and re-render that.
+2) if same element, then only twaek as per the req.
+like here, react will only tweak the classname
+```js
+//first
+<div className="before" title="stuff"/>
+
+//second
+<div className="after" title="stuff"/>
+```
+3) When a component is updated, such as a change in props, React Fiber performs a process called reconciliation to figure out what changes need to be made to the virtual DOM and subsequently to the actual DOM.
+
+4)  Compare and render in case of childrens. `key` attribute majorly helps for the same.
+likle suppose we have added an extra point in an unordered list, react in place of re-rendering the whole list will simply insert the lsat element at the end and update the same.
 
 ## Hooks Rule:
 There are 3 rules for hooks:
@@ -110,7 +129,7 @@ There are 3 rules for hooks:
 
 ### Example use of Hooks
 ```js
-//suppose we have an l;ogin button , and whenever user clicks on it, it should change to logout
+//suppose we have an login button , and whenever user clicks on it, it should change to logout
 import {useState} from "./react"
 const Header = () => { 
     const [LoginButton, setLoginButton] = useState("login")
@@ -126,11 +145,11 @@ const Header = () => {
 ## Why we even need state variables?
 The reason was, react doesnt get to know thaT we have updated out old variables `let/const/var`, So the concept of state variables was introduced. therefore we use `stateVariables` which when gets updated, react `re-renders the whole-component but with re-concillation Algo` containing them.
 
-### QUestion : 
+### Question : 
 Inside `const [LoginButton, setLoginButton] = useState("login")` how can react update an constant variable?
 
 ### Answer
-React baiscally re-renders the whole component and sends another of variable with the same name. conside it as if we are defining
+React baiscally re-renders the whole component and sends another of variable with the same name. consider it as if we are defining
 ```c++
 for(int i =0 ; i<n ; i++>){
     for(int i=0 ; i<n; i++>){
