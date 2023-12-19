@@ -2,6 +2,7 @@ import {useState, useEffect} from "react";
 import ShimmerComponent from "./Shimmer";
 import { Link } from "react-router-dom";
 import useUsersOnlineStatus from "../utils/useUsersOnlineStatus";
+import { SearchComponent } from "./Header";
 const styleCard = {
     backgroundColor : "#f0f0f0"
 }
@@ -27,8 +28,8 @@ const RestaurantComponent = (props) => {
     console.log(typeof cuisines);
 
     return (
-        <div className="res-card" style={styleCard}>
-            <img src={CDN_URL + cloudinaryImageId} style={{"border-radius" :"10px"}} ></img>
+        <div className="res-card h-[400px] w-60 m-2 p-2 rounded-2xl  bg-gray-200 hover:bg-gray-300" >
+            <img className="w-56" src={CDN_URL + cloudinaryImageId} style={{"border-radius" :"10px"}} ></img>
             <h3>{name}</h3>
             <h4>{cuisines.join(', ')}</h4>
             <h4>{avgRating + "/5⭐"} </h4>
@@ -61,7 +62,7 @@ const BodyComponent = () => {
     
     if(Online === false){
         return (
-            <div> 
+            <div className="prose"> 
                 <h1> it seems like you are offline</h1>
                 <h2> Please Check your internet Connectivity once again</h2>
             </div>
@@ -70,13 +71,14 @@ const BodyComponent = () => {
     return (
         <div className="body">
             
-            <div className="filter">
-                <button className="filter-btn" onClick={()=>{
+            <div className="filter flex  justify-center items-center">
+                <SearchComponent/>
+                <button className="filter-btnml-2 bg-blue-500 text-white px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 h-[46px]" onClick={()=>{
                     console.log("button clicked")
                 }}
                 >Top Rated Rest</button>
             </div>
-            <div className="restaurant-container">
+            <div className="restaurant-container flex flex-wrap justify-center">
                {
                 listOfRestaurants.map((restaurant) => 
                     

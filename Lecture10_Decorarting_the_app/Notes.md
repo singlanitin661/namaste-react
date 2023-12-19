@@ -49,3 +49,11 @@ This is basically importing tailind inside index.css
 ## Working with tailwind
 (Better to install `Tailwind Css IntelliSense` extension from vscode) 
 Tailwind is basically writing some className, and that classname will be rendered as css for that component/div/p/span/img or whatever.
+
+## Advantages
+- Not have to move between files (component and css file)
+- Lightweight (Suppose i am using `m-4` 100times in my code , then this doent mean that taiolwind will write 100x m-4, it will declare the m4 class only once)
+
+## Disadvantages
+- to many classes sometimes which makes the code less readable
+- Sometimes, seperatly apply to every element like points of a list
