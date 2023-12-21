@@ -281,7 +281,7 @@ Import point to note is that all the `Outlets` will still have name set as `Defa
 - **Component_B** ==> Akshay
 - **Component_C** ==> DefaultName
 
-
+**To Set the Variable in the `context` from inside of one state we will pass the `setState` Variable to the component and modify the same .** 
 ## Difference between `Context` and `Redux`
 
 - Redux is external , required to be install by npm install redux while `context` comes from react itself
