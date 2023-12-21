@@ -88,7 +88,6 @@ RestaurantCompoent(){
 # Lifting up the state
 
 **Lifting State Up in React:**
-`(Generally done through passing a useState which will tell which one to open and whcih to close, for example in case of Restaurant menu sections : Recommended, Rolls, Noddles, SweetDishes, Shakes, What i may do is write a logic to show the internal items when the index==Menu'sCategory INdex. and this index is set using useState passed to each Category, so that whenever a user clicks on the same we will setIndex(toTheComponentIndex). This will make index==CategoryIndex true for current One and false for all the others)`
 (Example : I want that all the other restaurant menu cards should collapse as soon as i open one . jaise ki agar mai recommended open krun , toh cuisines, sweet-dishes, rolls wala parts close ho jaayein)
 
 **Definition:**
