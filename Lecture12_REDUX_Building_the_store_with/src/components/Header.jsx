@@ -2,9 +2,20 @@ import { useState } from "react"
 import logo from "../../images/logo.png"
 import { Link } from "react-router-dom"
 
-export const SearchComponent = () => {
+export const SearchComponent = ({listOfRestaurants, setListofRestaurants}) => {
+    const list2 = [...listOfRestaurants];
     const [searchInputText, setSearchInputText] = useState("");
-
+    const handleSearch = () => {
+        const filteredRestaurants = list2.filter(restaurant =>
+          restaurant.info.name.toLowerCase().includes(searchInputText.toLowerCase())
+        );
+        setListofRestaurants(filteredRestaurants);
+        console.log(list2)
+        if(searchInputText == ""){
+            setListofRestaurants(list2)
+            console.log("listSet")
+        }
+      };
     return (
         <div className="flex items-center m-4">
             <input
@@ -16,16 +27,14 @@ export const SearchComponent = () => {
                 }}
                 placeholder="Search"
             />
-
             <button
-                className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
-                onClick={(e) => {
-                    // search/filter logic here
-                    console.log(searchInputText);
-                }}
-            >
-                Search
-            </button>
+                    className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300"
+                    onClick={handleSearch}
+                >
+                    Search
+                </button>
+                
+            
         </div>
     );
 };
@@ -46,16 +55,16 @@ const HeaderComponent = () => {
                 </div>
 
                 <div className="flex items-center justify-around  w-full">
-                    <span className="">
+                    <span className="text-xl font-bold text-white">
                         <Link to="/">Home</Link>
                     </span>
-                    <span className="">
+                    <span className="text-white text-xl font-bold">
                         <Link to="/about">About Us</Link>
                     </span>
-                    <span className="">
+                    <span className="text-white text-xl font-bold">
                         <Link to="/contact-us">Contact</Link>
                     </span>
-                    <span className="">
+                    <span className="text-white text-xl font-bold">
                         <Link to="/cart">
                         Cart({cartItems.length} items)
                         </Link>

@@ -30,10 +30,10 @@ const RestaurantComponent = (props) => {
     return (
         <div className="res-card h-[400px] w-60 m-2 p-2 rounded-2xl  bg-gray-200 hover:bg-gray-300" >
             <img className="w-56" src={CDN_URL + cloudinaryImageId} style={{"border-radius" :"10px"}} ></img>
-            <h3>{name}</h3>
-            <h4>{cuisines.join(', ')}</h4>
-            <h4>{avgRating + "/5⭐"} </h4>
-            <h4>{deliveryTime} </h4>
+            <h3 className="text-xl font-bold text-black my-2">{name}</h3>
+            <h4 className="text-lg  text-black my-2">{cuisines.join(', ')}</h4>
+            <h4 className="text-lg  text-black my-2">{avgRating + "/5⭐"} </h4>
+            <h4 className="text-lg  text-black my-2">{deliveryTime} </h4>
         </div>
     )
 }
@@ -56,10 +56,11 @@ const BodyComponent = () => {
     const fetchData = async () =>{
         const data = await fetch(Swiggy_API);
         const dataInJSON = await data.json();
-        // console.log( dataInJSON.data.cards[5].card.card.gridElements.infoWithStyle.restaurants.length);
-        // console.log("Hey")
+
         setListofRestaurants(dataInJSON.data.cards[5].card.card.gridElements.infoWithStyle.restaurants)
+        // console.log(listOfRestaurants)
     }
+    
     
     
     useEffect(()=>{
@@ -79,15 +80,16 @@ const BodyComponent = () => {
             </div>
         )
     }
-    // console.log("restaurant")
-    // console.log(listOfRestaurants)
     return (
         <div className="body">
             
             <div className="filter flex  justify-center items-center">
-                <SearchComponent/>
+                <SearchComponent listOfRestaurants={listOfRestaurants} setListofRestaurants={setListofRestaurants}/>
                 <button className="filter-btnml-2 bg-blue-500 text-white px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue-300 h-[46px]" onClick={()=>{
-                    console.log("button clicked")
+                    // console.log("button clicked")
+                    const filtered = listOfRestaurants.filter(res => res.info.avgRating >= 4.5)
+                    setListofRestaurants(filtered)
+                    // cons
                 }}
                 >Top Rated Rest</button>
             </div>

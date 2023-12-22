@@ -17,7 +17,7 @@ const Cart = () => {
     cartItems.map((item) => total += (item.card.info.price ? item.card.info.price/100 : item.card.info.defaultPrice/100))
 
   return (
-    <div className='text-center m-4 p-4 width-6/12'>
+    <div className='text-center m-4 p-4 '>
       <h1 className='text-2xl font-bold'>Cart</h1>
 
       <div className='cart-items'>

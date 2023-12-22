@@ -1,29 +1,18 @@
 import { CDN_URL } from "../utils/constants";
 
-const AddButton = (whetherToShowAddButton, item) => {
-  // item = item;
-  console.log(item)
+const AddButton = ({whetherToShowAddButton, item}) => {
   const dispatch = useDispatch();
   const handleAddItem = (item) => {
-    //Wanna dispatch an action
-    //suppose i pass pizza as an arguement to the AddItems , then the pizza will get as an payload.
     dispatch(addItems(item))
-    /*
-      Now, the redux creat an object
-      {
-        payload : "pizza"
-      }
-    */
+    console.log(item)
    setAddItem("Item Added")
 }
 const [AddItem , setAddItem] = useState("Add +")
 return (
   <div>
     {
-    whetherToShowAddButton.whetherToShowAddButton===true && <button
+    whetherToShowAddButton===true && <button
     className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg"
-    //The below method is wrong
-    // onClick={handleAddItem(item)}
     onClick={() => handleAddItem(item)}
   >
     {AddItem}
@@ -38,7 +27,6 @@ import { useState } from "react";
 
 
 const ItemList = ({ items, dummy , whetherToShowAddButton}) => {
-  
   return (
     <div>
       {items.map((item) => (
@@ -61,7 +49,7 @@ const ItemList = ({ items, dummy , whetherToShowAddButton}) => {
           </div>
           <div className="w-3/12 p-4">
             <div className="absolute">
-              <AddButton whetherToShowAddButton ={ true} item ={item} />
+              <AddButton whetherToShowAddButton ={ whetherToShowAddButton} item ={item} />
             </div>
             <img src={CDN_URL + item.card.info.imageId} className="w-full" />
           </div>

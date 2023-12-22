@@ -271,3 +271,5 @@ Here, the arrow function `() => handleAddItem(item)` is assigned to the `onClick
 ## Redux Dev Tools chrome extention
 
 - used for debugging
+- can write some basics test cases for us
+
