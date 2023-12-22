@@ -30,7 +30,14 @@ export const SearchComponent = () => {
     );
 };
 
+import { useSelector } from "react-redux/es/hooks/useSelector";
 const HeaderComponent = () => {
+    //The below hook will give us access to the store
+    //Subscribing to thestore using an selector
+    const cartItems =  useSelector((store) =>{
+        //I want access to only cart part therefore i will write
+        return store.cart.items
+    })
     return (
         <div>
             <div className="header bg-red-400 flex">
@@ -49,7 +56,9 @@ const HeaderComponent = () => {
                         <Link to="/contact-us">Contact</Link>
                     </span>
                     <span className="">
-                        <Link to="/cart">Cart</Link>
+                        <Link to="/cart">
+                        Cart({cartItems.length} items)
+                        </Link>
                     </span>
                 </div>
             </div>

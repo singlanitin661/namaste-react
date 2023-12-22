@@ -7,21 +7,28 @@ import BodyComponent from "./components/Body"
 import ContactUsComponent from "./components/Contact"
 
 import { Outlet } from "react-router-dom";
+
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
 const AppLayoutComponent = () => {
     return (
-        <div className="app">
-            <HeaderComponent />
+        <Provider store={appStore}> 
+        {/* Provider takes the store as an props*/}
+            <div className="app">
+                <HeaderComponent />
 
-            <Outlet/>
+                <Outlet/>
 
-            {/* <FooterComponent/> */}
-        </div>
+                {/* <FooterComponent/> */}
+            </div>
+        </Provider>
     )
 }
 
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-
 import RestaurantMenu from "./components/RestaurantMenu";
+import appStore from "./utils/appStore";
+import Cart from "./components/Cart";
 const appRouter = createBrowserRouter([
     {
         path : "/",
@@ -42,6 +49,9 @@ const appRouter = createBrowserRouter([
             {
                 path:"/restaurants/:resID", //coloun means that the resId will be dynamic
                 element: <RestaurantMenu/>
+            }, {
+                path:"/cart",
+                element: <Cart/>
             }
         ],
         errorElement:<Error/>

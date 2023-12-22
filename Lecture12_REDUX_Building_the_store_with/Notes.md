@@ -1,287 +1,273 @@
-- **React** has two layers
-  - **UI**
-    - (Static part) ,
-    - (powered by data layer)
-  - **Data**
-    - States
-    - props
+# Redux
 
-# Higher Order Components
+- Redux is not manadatory to use
+- Large scale applications where the data is heavily used, lot of read and write operations are going on then using redux will make sense
+- Appluications become easier to debug
+- All applications built with redux can also be built without redux
+- Redux is not a part of react . Both are two different libraries
+- Other libraies to manage state except redux are
+  - zustand (Gaining popularity)
 
-What is an Higher order function inside js? The same goes here
-They are a function(component) that takes a function and returns a function(Component).
+## What is redux
 
-- Acts as an enhancer which tweaks an older component
-For example , I want to show some restaurants as `Promoted`.
+A predictable state container for JS apps
 
-## Code
+Redux
+
+- React-redux
+- Redux Toolkit(**RTK**)
+
+**Not using vanilla redux here**
+
+- Redux-store is like a very big js object kept in a global central space
+- A slice is like a small portion of the redux store which are basically a logical partion to keep the data of different type seprated from one another. Example:
+  - CartSlice : to store the data for the cart
+  - UserSlice : to store the info of the logged in user
+- Our store do have multiple slices inside them
+- We can't direclty modify a slice
+
+**Lets say we are bulding an cart slice**
+
+### Way to Write data inside the slice
+
+- We click on the `Add` button
+- It `dispaches` an `action`
+- Calls an function`Reducer`
+- `Reducer` Updates the cartSlice by internally modifing the cartSlice
+
+### Way to Read data inside the slice
+
+- `Selector` reads the data from the slice and will modify our frontend/react-component.
+- The frontend component will be subscribed to the store
+- `Subscribing to the store` means  to be getting in sync with the store 
+
+![Redux Image](./images/Redux.png)
+
+### Steps we are going to follow in dev
+
+- Installation
+- Build out store
+- Connect our store to the app
+- Slice(cartSlice)
+- Dispatch action
+- Selector
+
+
+
+## Code Part
+
+### Installation
+
+installation of @reduxjs/toolkit and react-redux
+
+```bash
+# redux-toolkit installation
+npm i @reduxjs/toolkit
+
+#react-redux installation
+npm i react-redux
+```
+
+### Creation of store
 
 ```js
-const withPromotedLabel = (FunctionalComponent) => {
-    //returning a component.
-    //look , where the props are passed
-    return (props) => {
-        return(
-            <div>
-                <h1  className="text-white bg-black ">Promoted</h1>
-                <FunctionalComponent resData={...props} />
-            </div>
-        )
+
+```
+
+### Creation of slice
+
+**Remember the syntax**
+`cartSlice.js`
+
+```js
+import { createSlice, isAction } from "@reduxjs/toolkit";
+//CreateSlice takes an confiouration to create an slice
+/*
+First configuration => name
+Second configuration => initialstate (What basically should initially be cart items)
+Third configuration => reducers (Object) (Reducer functions are passed here)
+Actions are like apis to communicate with the store.
+Reducer functions gets two parameters => one is State, another is action. It will modify the  state based on the action
+*/
+const cartSlice = createSlice({
+    name : "cart",
+    initialState : {
+        items : []
+    },
+    reducers: {
+        // addItems is an action 
+        // and an reducer function is mapped to it. It will be used to modify the cart
+        addItems : (state, action) => {
+            state.items.push(action.payload)
+        }, 
+
+        // as we dont need action , therefore we can simply remove that from the below 
+        removeItems : (state) => {
+            // Lets say we are removing the last item only from the cart's items array
+            state.items.pop();
+        },
+        clearCart : (state) => {
+            state.items.length = 0;
+
+            
+        }
     }
+});
+/* 
+createSlice returns an object that will be stored in the cartSlice and the object will look likew this
+{
+    action : {
+        addItems: (  ),
+        removeItems: (),
+        clearcart: ()
+    }, 
+    reducer
 }
+*/
+export const {addItems, removeItems, clearCart} = cartSlice.actions;
+export default cartSlice.reducer;
 ```
 
-## Usage
+**Note that state = [] wont work in clearCart function because we are not mutating the state, we are just updaing the reference**
+or i may say ki state ek pointer thaa jo point kr rha thaa localVar ko, abb humne uss pointer ko ek nayi array pr hi point kra diya inplace of modifying the original local var
+**Or we may evern `return {items : []}`**
+
+### Providing the store to the app
 
 ```js
-{ 
-listOfRestaurants.map((restaurant) => 
-    
+import { Provider } from "react-redux";
+import appStore from "./utils/appStore";
+const AppLayoutComponent = () => {
+    return (
+        <Provider store={appStore}> 
+        {/* Provider takes the store as an props*/}
+            <div className="app">
+                <HeaderComponent />
 
-    
-        <Link 
-            to={"/restaurants/"+restaurant.info.id} 
-            key={restaurant.info.id} > {
-                restaurant.info.promoted >=4.4 ? withPromotedLabel(RestaurantComponent)(restaurant.info): <RestaurantComponent resData={restaurant.info} />
-            }
-        </Link>
-    
-)
-}
-```
+                <Outlet/>
 
-`React developer tools` extension for debugging and monitoring react
-
-# Controlled and un-controlled Component
-
-A component with its own state is an **uncontolled component**.
-For example :
-
-```js
-
-RestaurantMenu(){
-    Categories.map(
-        <RestaurantCategory data= {category}/>
+                {/* <FooterComponent/> */}
+            </div>
+        </Provider>
     )
 }
-
-RestaurantCompoent(){
-    useState to show the items
-}
 ```
 
-A component which donot have its own state is an **contolled component**.
-For example :
+If we want to provide the store to some part of the app, then we can also do the same, bu wrapping only that particular component inside the provider (Similar to done in using `context-provider`)
+
+### Subscribing to a selector
+
+`Header.js`
 
 ```js
-RestaurantMenu(){
-    Categories.map(
-        <RestaurantCategory data= {category, whetherToShowItemsOrNot}/>
-    )
-}
+import { useSelector } from "react-redux/es/hooks/useSelector";
+const HeaderComponent = () => {
+    //The below hook will give us access to the store
+    //Subscribing to thestore using an selector
+    const cartItems =  useSelector((store) =>{
+        //I want access to only cart part therefore i will write
+        return store.cart.items
+    })
+    return (
+        <div>
+          <span className="">
+              Cart({cartItems.length} items)
+          </span>
+        </div>
+    );
+};
 
-RestaurantCompoent(){
-    //No useState to show the items
-}
+export default HeaderComponent;
 ```
 
-# Lifting up the state
+### useDispatch
 
-**Lifting State Up in React:**
-(Example : I want that all the other restaurant menu cards should collapse as soon as i open one . jaise ki agar mai recommended open krun , toh cuisines, sweet-dishes, rolls wala parts close ho jaayein)
-
-**Definition:**
-"Lifting state up" in React refers to the practice of managing state in a component higher up in the component tree and passing that state down to child components as props. This is a fundamental pattern in React that allows sharing state and behavior between components.
-
-**Theory:**
-In React, each component can have its own local state. However, when multiple components need to share the same state or when a state change in one component affects another, it's a good idea to lift the state up to a common ancestor.
-
-By doing this, you create a single source of truth for the shared state, making your application more predictable and easier to maintain. It also follows the principles of a unidirectional data flow in React, where data flows from parent to child components.
-
-**Use Case:**
-Consider an accordion component where each section can be expanded or collapsed independently. The state of each section (whether it's expanded or collapsed) can be managed in the parent component, and this state is then passed down to the individual accordion sections as props.
-
-**Code Example: Accordion Component:**
-
-Let's create a simple Accordion component with two sections that can be expanded or collapsed:
-
-```jsx
-import React, { useState } from 'react';
-
-// Child AccordionSection component
-const AccordionSection = ({ title, content, isOpen, onToggle }) => (
-  <div>
-    <div
-      onClick={onToggle}
-      style={{
-        cursor: 'pointer',
-        borderBottom: '1px solid #ddd',
-        padding: '10px',
-        backgroundColor: isOpen ? '#f0f0f0' : 'white',
-      }}
-    >
-      {title}
-    </div>
-    {isOpen && (
-      <div style={{ padding: '10px' }}>
-        {content}
-      </div>
-    )}
-  </div>
-);
-
-// Parent Accordion component
-const Accordion = () => {
-  const [section1Open, setSection1Open] = useState(false);
-  const [section2Open, setSection2Open] = useState(false);
-
-  const toggleSection1 = () => {
-    setSection1Open(!section1Open);
-    setSection2Open(false); // Close other sections when this is opened
-  };
-
-  const toggleSection2 = () => {
-    setSection2Open(!section2Open);
-    setSection1Open(false); // Close other sections when this is opened
-  };
-
+```js
+import { useDispatch } from "react-redux";
+import { addItems } from "../utils/Slices/cartSlice";
+const ItemList = ({ items, dummy }) => {
+  const dispatch = useDispatch();
+  
+  const handleAddItem = () => {
+      //Wanna dispatch an action
+      //suppose i pass pizza as an arguement to the AddItems , then the pizza will get as an payload.
+      dispatch(addItems("pizza"))
+      /*
+        Now, the redux creat an object
+        {
+          payload : "pizza"
+        }
+      */
+  }
   return (
     <div>
-      <AccordionSection
-        title="Section 1"
-        content="Content for section 1."
-        isOpen={section1Open}
-        onToggle={toggleSection1}
-      />
-      <AccordionSection
-        title="Section 2"
-        content="Content for section 2."
-        isOpen={section2Open}
-        onToggle={toggleSection2}
-      />
+      {items.map((item) => (        
+              <button
+                className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg"
+                onClick={() => handleAddItem(item)}
+              >
+                Add +
+              </button>
+      ))}
     </div>
   );
 };
-
-export default Accordion;
 ```
 
-In this example:
+## Important
 
-- The `Accordion` component manages the state (`section1Open` and `section2Open`) and passes it down to the `AccordionSection` components as props.
-- Each `AccordionSection` component receives the state and callbacks as props, allowing them to update the state in the parent component.
-
-This pattern makes it easy to add more sections to the accordion without duplicating state management logic in each section. The state is lifted up to the common ancestor, promoting a more maintainable and scalable code structure.
-
-# Props Drilling /React-context
-
-**Problem** : Props Drilling
-**Solution** : React context `createContext`
-
-
-- data flows in one dirn in react i.e. from parents to children
-- when app is big, a lot of nesting will be there.
-- **Problem** we can't directly pass the data from level 1 to 3 or 3+.
-- To make global data, `react-context is used`. The example of global-data can include :
-    - Logged-in info
-    - Theme
-
-## React-context
-```js
-import {createContext} from "react"
-```
-
-- Stored in utils as a name of `UserContext.js`
-
-### Creation
+**Way to do onclick is as follow**
 
 ```js
-import { createContext } from "react";
-//accepts the data in form of an json
-const userContext = createContext({
-    loggedInUser : "default User"
-})
-
-export default userContext;
+onclick( () => functionToBeCalled(Arguements))
 ```
 
-### Accesing in functional Component (`.Provider`)
-
-- With the help of a react-hook (`useContext`)
+not this
 
 ```js
-import {useContext} from "react"
-import UserContext from "../utils/UserContext"
-const data = useContext(UserContext) 
+onclick(functionToBeCalled(Arguements))
 ```
 
-### Accessing inside the class-based-component
+as In the first case, when you use `onClick={handleAddItem(item)}`, you are actually invoking the `handleAddItem` function immediately during the rendering phase, not when the button is clicked. This is because the parentheses `()` after `handleAddItem(item)` trigger the function call right away.
 
-```js
-import UserContext from "./utils/UserContext"
+Let's break down why this happens:
 
-<div>
-    <userContext.Consumer> 
-        {
-            (data) => console.log(data)
-        }
-    </userContext.Consumer>
-</div>
+```jsx
+<button onClick={handleAddItem(item)}>Click me</button>
 ```
 
-### Updating the value
+In this code, `handleAddItem(item)` is executed immediately during the rendering phase, and the result (presumably `undefined` or whatever the function returns) is assigned to the `onClick` handler. This is not the intended behavior for event handlers in React.
 
-```js
-import userContext from "./utils/userContext"
+To avoid this, you can use an arrow function to create a function that will be called only when the button is clicked:
 
-// Hooks for updating the val
-const [userName, setUserName] = useState("");
-
-useEffect(() => {
-  const data = {
-    name : "Aryan Jindal"
-  };
-  setUserName(data.name);
-})
-
-//Now, whichever component i want to send the new values, i will wrap them insside the Provider.
-
-<div>
-  //Suppose i just wanna to modify the header
-  <UserContext.Provider value={{loggedInUser : userName}}>
-    <Header/>
-  </UserContext.Provider>
-
-  <Outlet>
-</div>
+```jsx
+<button onClick={() => handleAddItem(item)}>Click me</button>
 ```
 
-Import point to note is that all the `Outlets` will still have name set as `DefaultUser` while in `header` it will be `Aryan Jindal;`
+Here, the arrow function `() => handleAddItem(item)` is assigned to the `onClick` handler. The function is not invoked immediately; instead, it is executed only when the button is clicked. This is a common pattern in React when you need to pass parameters to an event handler.
 
-### How does nesting of provider works/ performs
+## Important Points
 
-```js
-<div>
-  <UserContext.Provider value={{loggedInUser : "Aryan"}}>
-    <Component_A/> 
-    <div>
-      <UserContext.Provider value={{loggedInUser : "Akshay"}}>
-        <Component_b/>
-      </UserContext.Provider>
-    </div>
+- While using a `selector` make sure that you are subscribing to the right portion of the store.
+  - This will improve the performance by a lot
+  - 
+- `reducer` in appStore.js , `reducers` in cartStore.js
+- In vanilla/older redux , you are not allowed to mutate the state
+  - The code looks like this
+    - `Earlier`
+      - returning was manadatory
+      - addItem: (state, action) => {
+      const newState = [...state];
+      newState.items.push(action.payload);
+      return newState;
+    }
+    - `Present` 
+      - Presently, we have to either mutate the state in redux Toolkit, or return a new state. The return value will replace whatyever was present in the original state
+      - Redux is till doing all the earlier work , but now in the background
+      - uses `immer` library to do that. Find the difference between older state, new state.
+      - addItem : (state, action) => state.items.push(action.payload);
+- `console.log(state)` wont work in redux, we have to do `console.log(current(state))`
 
-  </UserContext.Provider>
+## Redux Dev Tools chrome extention
 
-  <Component_C>
-</div>
-```
-
-- **Component_A** ==> Aryan
-- **Component_B** ==> Akshay
-- **Component_C** ==> DefaultName
-
-
-## Difference between `Context` and `Redux`
-
-- Redux is external , required to be install by npm install redux while `context` comes from react itself
-- Context is recommended for small scale projects while `redux` for large scale due to ease of usage
+- used for debugging

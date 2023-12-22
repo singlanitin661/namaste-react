@@ -1,35 +1,44 @@
-// import React from 'react'
-
-// const ItemList = ({items}) => {
-//     console.log(items)
-//   return (
-//     <div>
-//         {
-//             items.map(item => (
-//             <div 
-//                 key={item.card.info.id} 
-//                 className='p-2 m-2 text-left  border-gray-200 border-b-2'>
-                
-//                 <div className=''>
-//                     <span>{item.card.info.name} </span>
-//                     <span>{item.card.info.price/100} </span>
-//                 </div>
-//                 <p>
-//                     {item.card.info.description}
-//                 </p>
-                
-//             </div>))
-//         }
-      
-//     </div>
-//   )
-// }
-
-// export default ItemList
 import { CDN_URL } from "../utils/constants";
 
-const ItemList = ({ items, dummy }) => {
+const AddButton = (whetherToShowAddButton, item) => {
+  // item = item;
+  console.log(item)
+  const dispatch = useDispatch();
+  const handleAddItem = (item) => {
+    //Wanna dispatch an action
+    //suppose i pass pizza as an arguement to the AddItems , then the pizza will get as an payload.
+    dispatch(addItems(item))
+    /*
+      Now, the redux creat an object
+      {
+        payload : "pizza"
+      }
+    */
+   setAddItem("Item Added")
+}
+const [AddItem , setAddItem] = useState("Add +")
+return (
+  <div>
+    {
+    whetherToShowAddButton.whetherToShowAddButton===true && <button
+    className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg"
+    //The below method is wrong
+    // onClick={handleAddItem(item)}
+    onClick={() => handleAddItem(item)}
+  >
+    {AddItem}
+  </button>
+}
+  </div>
+)
+}
+import { useDispatch } from "react-redux";
+import { addItems } from "../utils/Slices/cartSlice";
+import { useState } from "react";
 
+
+const ItemList = ({ items, dummy , whetherToShowAddButton}) => {
+  
   return (
     <div>
       {items.map((item) => (
@@ -52,12 +61,7 @@ const ItemList = ({ items, dummy }) => {
           </div>
           <div className="w-3/12 p-4">
             <div className="absolute">
-              <button
-                className="p-2 mx-16 rounded-lg bg-black text-white shadow-lg"
-                onClick={() => handleAddItem(item)}
-              >
-                Add +
-              </button>
+              <AddButton whetherToShowAddButton ={ true} item ={item} />
             </div>
             <img src={CDN_URL + item.card.info.imageId} className="w-full" />
           </div>
