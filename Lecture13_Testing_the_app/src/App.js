@@ -60,7 +60,8 @@ const appRouter = createBrowserRouter([
 ]) //configuration will be passed about what will happen on a specific route
 //Takes an array of objects
 
-
+import Counter from "./components/TemporaryComponent";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(<RouterProvider router={appRouter}/>)
+// root.render(<Counter/>)

@@ -47,7 +47,7 @@ test("should load two input boxes", ()=>{
     render(<ContactUsComponent/>)
 
     const InputBoxes = screen.getAllByRole("textbox")
-    console.log(InputBoxes[0]) //=>this is basically react-element
+    // console.log(InputBoxes[0]) //=>this is basically react-element
     expect(InputBoxes.length).toBe(2);
 
 })

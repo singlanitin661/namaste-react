@@ -1,5 +1,5 @@
 import { useState } from "react"
-import logo from "../../images/logo.png"
+import { logo } from "../utils/constants";
 import { Link } from "react-router-dom"
 
 export const SearchComponent = ({listOfRestaurants, setListofRestaurants}) => {

@@ -12,9 +12,10 @@ const Swiggy_API = "https://www.swiggy.com/dapi/restaurants/list/v5?lat=12.93519
 const CDN_URL =
   "https://res.cloudinary.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_508,h_320,c_fill/";
 
-const RestaurantComponent = (props) => {
+export const RestaurantComponent = (props) => {
     // console.log(props)
     const { resData } = props;
+    console.log(resData)
 
     const {
         cloudinaryImageId,
@@ -45,20 +46,19 @@ const withPromotedLabel = (FunctionalComponent) => {
         return(
             <div>
                 <h1  className="absolute text-white bg-black rounded-xl p-2">Promoted</h1>
-                <FunctionalComponent resData={...props} />
+                <FunctionalComponent resData={props} />
             </div>
         )
     }
 }
-const BodyComponent = () => {
 
+const BodyComponent = () => {
     const [listOfRestaurants, setListofRestaurants] = useState([]);
     const fetchData = async () =>{
         const data = await fetch(Swiggy_API);
         const dataInJSON = await data.json();
 
         setListofRestaurants(dataInJSON.data.cards[5].card.card.gridElements.infoWithStyle.restaurants)
-        // console.log(listOfRestaurants)
     }
     
     

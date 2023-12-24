@@ -196,3 +196,150 @@ describe("Contact-us Page test cases", ()=>{
 })
 ```
 
+## React-redux testcases
+
+Suppose , i want to unit test the header, which in tern gets the value of logged in user from the redux.
+So, now how to do that?
+
+- jsdom donot understand the redux code
+- So, now we are required to provide our store to the header in the test cases as well
+
+
+```js
+import { render, screen } from "@testing-library/react"
+import Header from "../Header"
+import "@testing-library/jest-dom"
+import { Provider } from "react-redux"
+import appStore from "../../utils/appStore"
+
+import { BrowserRouter } from "react-router-dom"
+import "@testing-library/jest-dom"
+it("should render Header with an login-button", ()=>{
+    render(
+        <BrowserRouter>
+            <Provider store={appStore} >
+                <Header/>
+            </Provider>
+        </BrowserRouter>
+        );
+
+    const LoginButton = screen.getByRole("button", {name:"Login"}) //in case of multiple buttons, we may pass the name as well
+    expect(LoginButton).toBeInTheDocument();
+
+    
+
+})
+```
+
+**Similarly `Link` also causes an issue. as it comes from reactRouterDom**
+
+**We may use regex to search texts like this**
+`const cartItems = screen.getByText(/Cart/)`
+
+## FireEvent
+
+- Used to click a button from a code.
+- Suppose, I have an login button which changes to logout on clicking on it. I want to test the same:
+
+```js
+import {fireEvent, render, screen } from "@testing-library/react"
+import Header from "../Header"
+import "@testing-library/jest-dom"
+import { Provider } from "react-redux"
+import appStore from "../../utils/appStore"
+
+import { BrowserRouter } from "react-router-dom"
+import "@testing-library/jest-dom"
+it("should check is the Login button is working correctly or not", ()=>{
+    render(
+        <BrowserRouter>
+            <Provider store={appStore} >
+                <Header/>
+            </Provider>
+        </BrowserRouter>
+        );
+
+    const LoginButton = screen.getByRole("button", {name:"Login"})
+
+    fireEvent.click(LoginButton);
+
+    const LogOutButton = screen.getByRole("button", {name:"LogOut"})
+    expect(LogOutButton).toBeInDocument();
+})
+```
+
+## Working with Props
+
+- we will store some mock data seperately, and will pass that to the componentlike this 
+```js
+import {render} from "@testing-library/jest-dom"
+import { RestaurantComponent } from "../Body"
+import Mock_data from "../mocks/resCardmock.json"
+import "@testing-library/jest-dom"
+
+it("should render rest card with data", ()=>{
+    render(<RestaurantComponent resData = {Mock_data}/>)
+
+    const nameOfres = screen.getByText("Nandhana Palace")
+
+    expect(nameOfres).toBeInTheDocument();
+})
+```
+
+# Integration Testing
+
+- Lets experiment with body component
+- The body `fetches` the data from the Swiggy_API, but fetch is a superpower of `Broswer` , therefore js-dom do not posses the same. So, rendering the body will create an issue as jextdom donot have capabilities like browsers to connect to the internet
+- So , we have to fake this fetch by writing an mock-function for the same.
+
+Lets do it :
+
+```js
+
+import {render} from "@testing-library/react"
+import Body from "../Body"
+import MOCK_resturant_list_data_json from "../../mocks/mock_data_for_res_list.json"
+//lets define the fetch function inside our global(the object which gets rendered on calling render(<Body/>))
+//jest.fn() is a utility function that creates a mock function. A mock function is a function that allows you to track calls, replace its implementation, and set return values. 
+global.fetch = jest.fn(()=>{
+  //our original fetch promise returns us an promise, therefore we are required to do the same
+  return Promise.resolve({
+    //Now, in our fetch fn inside the body, the promise further returns us an json promise with data
+    json: () =>{
+      return Promise.resolve(MOCK_resturant_list_data_json);
+    }
+  })
+})
+import { act } from "react-dom/test-utils"
+
+
+// NOte the posiitons of async
+it("should test act", async ()=>{
+  await act(async ()=>{
+    render(
+      //as the body is using link tags
+
+      <BrowserRouter>
+        <Body/>
+      </BrowserRouter>
+    )
+  })
+})
+//best method is to use getByTestID
+//to give a test id, i will modify the input box with a property
+
+//data-testid = "search-input-id"
+const searchInput = screen.getByTestId(search-input-id);
+
+//fire the input text inside the search input
+// the object will stimulate what we will get inside the onChange event 
+fireEvent.change(searchInput, {target : {value: "burger"}})
+```
+
+**Not to run test cases again and again , we may set a `"watch-test" : "jest --watch" `**
+
+- **whenever their is an `async` or `we are using states` we are required to wrap them in `act()`**
+
+## Coverage ==> index.html ==> open with live server 
+This basically tells us which lines we have not covered of our code by highlighting them.
+In general coverage whould be greater than 85%.
