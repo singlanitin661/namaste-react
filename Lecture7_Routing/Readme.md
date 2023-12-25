@@ -7,7 +7,7 @@ type `rafce` and press `enter` and this will create an component for us of the s
 3) If something(`dependency`) is put inside the dependency array, then the useEffect will be called whenever the depency changes. The dependency will include the useState variables
 
 ## Addional's on useState
-1) The useState and hooks can only be called inside an body component. Also , try to write them as soon as the funciton starts.
+1) The useState and hooks can only be called inside an component. Also , try to write them as soon as the funciton starts.
 2) Never create the useState inside an condition(if, else, for, local functions of the component). syntatically, it will be all right but will later cause inconsistencies
 
 # Routing inside js
