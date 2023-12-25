@@ -211,3 +211,48 @@ Here's a brief explanation of how `useParams` works:
 Using `useParams` allows you to create more flexible and dynamic React components that can respond to changes in the URL, making it a powerful tool for building applications with dynamic routing.
 
 ### Link uses anchor tag in the background.
+
+# Suppose my website has 3 pages, say /x, /y, /z. Each page has an header, body, footer inside the main body. They all have same header and footer. I want react to only re-render the center part when i press buttons to redirect me to next page. How can i do so?
+**`Swiches` comes into picture here**
+To achieve the desired behavior of only re-rendering the center part of your website when navigating between pages, you can use React Router along with a layout structure. The layout structure includes a common header and footer shared across all pages, while the central content changes based on the current route.
+
+Here's a simple example using React Router and a layout structure:
+
+```jsx
+// App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import PageX from './pages/PageX';
+import PageY from './pages/PageY';
+import PageZ from './pages/PageZ';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+const App = () => {
+  return (
+    <Router>
+      <div>
+        <Header />
+
+        <Switch>
+          <Route path="/x" component={PageX} />
+          <Route path="/y" component={PageY} />
+          <Route path="/z" component={PageZ} />
+        </Switch>
+
+        <Footer />
+      </div>
+    </Router>
+  );
+};
+
+export default App;
+```
+
+In this example:
+
+- The `Header` and `Footer` components are common across all pages.
+- The `Switch` component from React Router renders only the first `Route` that matches the current location.
+- Each `Route` renders a specific page component (`PageX`, `PageY`, `PageZ`) based on the path.
+
