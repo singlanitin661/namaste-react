@@ -41,6 +41,8 @@ const AboutComponent = () => {
 
 **Passing** same as functional component
 **recieve** declare the `constructor, super(props)` and acess as `{this.props.propertyName}`. Read the comments below for better understanding
+`When you define a constructor in a class-based component, especially when you extend another class (for example, extending React.Component), you need to call super(props) within the constructor. This is because the base class (React.Component) has its own constructor, and calling super(props) ensures that the constructor of the parent class is executed before the constructor of the child class.
+`
 ```js
 //constructor should be explicitly declared when we are required to pass the parameters
     constructor(props){
