@@ -212,7 +212,7 @@ Using `useParams` allows you to create more flexible and dynamic React component
 
 ### Link uses anchor tag in the background.
 
-# Suppose my website has 3 pages, say /x, /y, /z. Each page has an header, body, footer inside the main body. They all have same header and footer. I want react to only re-render the center part when i press buttons to redirect me to next page. How can i do so?
+### Suppose my website has 3 pages, say /x, /y, /z. Each page has an header, body, footer inside the main body. They all have same header and footer. I want react to only re-render the center part when i press buttons to redirect me to next page. How can i do so?
 **`Swiches` comes into picture here**
 To achieve the desired behavior of only re-rendering the center part of your website when navigating between pages, you can use React Router along with a layout structure. The layout structure includes a common header and footer shared across all pages, while the central content changes based on the current route.
 
