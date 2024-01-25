@@ -107,6 +107,7 @@ Use the following command to install Parcel as a development dependency:
 ```bash
 npm install -D parcel
 ```
+-D is for dev dependency. Other type is production dependency that is used for production and testing phase
 
 ## 6) Package-lock.json
 
